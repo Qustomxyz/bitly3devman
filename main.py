@@ -1,6 +1,7 @@
 import os
 import requests
 from dotenv import load_dotenv
+import argparse
 
 load_dotenv()
 
@@ -8,7 +9,11 @@ TOKEN_DEFAULT = os.getenv('TOKEN')
 
 
 def main():
-    user_link = input('Введите ссылку:')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('link')
+    args = parser.parse_args()
+    user_link = args.link.strip()
+
     link_data = get_link_counter(user_link)
     if link_data:
         answer = ["Короткая ссылка: {}".format(user_link), 'Количество переходов:']
@@ -51,6 +56,9 @@ def get_link_counter(bitlink, token=TOKEN_DEFAULT):
     headers = {
         'Authorization': authorization,
     }
+
+    if bitlink.startswith('http://bit.ly'):
+        bitlink = bitlink[7:]
     url = 'https://api-ssl.bitly.com/v4/bitlinks/{bitlink}/clicks'.format(bitlink=bitlink)
     response = requests.get(url, headers=headers)
     if response.ok:
