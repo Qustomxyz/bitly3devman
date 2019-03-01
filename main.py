@@ -23,9 +23,9 @@ def main():
     else:
         response = make_short_link(user_link)
         if response:
-          print(response)
+            print(response)
         else:
-          print('Неправильный формат ссылки')
+            print('Неправильный формат ссылки')
 
 
 def make_short_link(long_link, token=TOKEN_DEFAULT):
